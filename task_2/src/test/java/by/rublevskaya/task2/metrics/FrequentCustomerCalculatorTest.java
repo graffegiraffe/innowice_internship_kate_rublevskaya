@@ -7,7 +7,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
 class FrequentCustomerCalculatorTest {
     private final List<by.rublevskaya.task2.entities.Order> sampleOrders = by.rublevskaya.task2.TestData.getSampleOrders();
 

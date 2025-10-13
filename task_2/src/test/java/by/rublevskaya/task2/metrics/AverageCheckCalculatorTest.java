@@ -8,7 +8,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
 class AverageCheckCalculatorTest {
     private final List<Order> sampleOrders = TestData.getSampleOrders();
 
