@@ -10,6 +10,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>task_1</module>
+        <module>task_2</module>
+        <module>task_3</module>
     </modules>
 
     <properties>

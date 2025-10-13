@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="86dc013b-d201-44b6-b938-562d505439d1" name="Changes" comment="Full implementation of task 3, namely there are two factions: World and Wednesday and neutral object - Factory. Each faction is trying to create an army of robots, but to do so they need parts for the robots.Robot parts are divided into: head, torso, hand, feet. To build one robot you need 1 head, 1 torso, 2 hands, 2 feet. They are produced by a neutral Factory, which produces no more than 10 parts every day. The type of parts is chosen randomly. At night, the factions go to the Factory to get parts for the robots (each faction can carry no more than 5 parts). The factions and the factory each work in their own thread. Determine who will have the strongest army after 100 days.">
+      <change afterPath="$PROJECT_DIR$/task_2/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/task_3/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="JUnit5 Test Class" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;graffegiraffe&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:graffegiraffe/innowice_internship.git&quot;,
+    &quot;accountId&quot;: &quot;62f75b4a-1bb4-41d3-8f37-a40dff359096&quot;
+  }
+}</component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="33jlMxMHFSnTWj7Ijr63HiZhd5F" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.LinkedListApplication.executor": "Run",
+    "Application.MainApp.executor": "Run",
+    "Application.Simulation.executor": "Run",
+    "JUnit.CityMetricCalculatorTest.executor": "Run",
+    "JUnit.MyLinkedListTest.add.executor": "Run",
+    "JUnit.MyLinkedListTest.addFirst.executor": "Run",
+    "JUnit.MyLinkedListTest.addLast.executor": "Run",
+    "JUnit.MyLinkedListTest.complexScenario.executor": "Run",
+    "JUnit.MyLinkedListTest.getFirst.executor": "Run",
+    "JUnit.MyLinkedListTest.remove.executor": "Run",
+    "JUnit.MyLinkedListTest.removeFirst.executor": "Run",
+    "JUnit.MyLinkedListTest.removeLast.executor": "Run",
+    "JUnit.MyLinkedListTest.size.executor": "Run",
+    "JUnit.MyLinkedListTest.testExceptions.executor": "Run",
+    "JUnit.RevenueMetricCalculatorTest.calculate.executor": "Run",
+    "JUnit.by.rublevskaya.task2.metrics in task_2.executor": "Run",
+    "Maven.task_1 [clean].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "git-widget-placeholder": "tasks-task3",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/katusarublevsk/Desktop/JAVA/innowise/innowise_pet_project/task",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "/Users/katusarublevsk/Desktop/JAVA/innowise/innowise_pet_project/task_3/src/main/java/org/example/Main.java",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/task" />
+      <recent name="$PROJECT_DIR$/task_2" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="by.rublevskaya.task2.metrics" />
+      <recent name="by.rublevskaya.task_1.list" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.MainApp">
+    <configuration name="MainApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="by.rublevskaya.task2.MainApp" />
+      <module name="task_2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="by.rublevskaya.task2.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SimulationApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="by.rublevskaya.task3.SimulationApp" />
+      <module name="task_3" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="by.rublevskaya.task3.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CityMetricCalculatorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="task_2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="by.rublevskaya.task2.metrics.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="by.rublevskaya.task2.metrics" />
+      <option name="MAIN_CLASS_NAME" value="by.rublevskaya.task2.metrics.CityMetricCalculatorTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RevenueMetricCalculatorTest.calculate" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="task_2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="by.rublevskaya.task2.metrics.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="by.rublevskaya.task2.metrics" />
+      <option name="MAIN_CLASS_NAME" value="by.rublevskaya.task2.metrics.RevenueMetricCalculatorTest" />
+      <option name="METHOD_NAME" value="calculate" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="by.rublevskaya.task2.metrics in task_2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="task_2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="by.rublevskaya.task2.metrics.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="by.rublevskaya.task2.metrics" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="cmdOptions" />
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list />
+            </option>
+            <option name="multimoduleDir" />
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="projectsCmdOptionValues">
+              <list />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$/../../untitled" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.SimulationApp" />
+        <item itemvalue="JUnit.by.rublevskaya.task2.metrics in task_2" />
+        <item itemvalue="JUnit.CityMetricCalculatorTest" />
+        <item itemvalue="JUnit.RevenueMetricCalculatorTest.calculate" />
+        <item itemvalue="Application.MainApp" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.26199.169" />
+        <option value="bundled-js-predefined-d6986cc7102b-9c94529fcfe0-JavaScript-IU-252.26199.169" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="86dc013b-d201-44b6-b938-562d505439d1" name="Changes" comment="" />
+      <created>1759838318120</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1759838318120</updated>
+      <workItem from="1759838320157" duration="12049000" />
+      <workItem from="1760012153869" duration="419000" />
+      <workItem from="1760278573891" duration="10832000" />
+      <workItem from="1760365800677" duration="4655000" />
+      <workItem from="1760376347086" duration="735000" />
+      <workItem from="1760377093605" duration="918000" />
+      <workItem from="1760378022783" duration="1088000" />
+    </task>
+    <task id="LOCAL-00001" summary="First init">
+      <option name="closed" value="true" />
+      <created>1759856786797</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1759856786797</updated>
+    </task>
+    <task id="LOCAL-00002" summary="dev branch init">
+      <option name="closed" value="true" />
+      <created>1759857646186</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1759857646186</updated>
+    </task>
+    <task id="LOCAL-00003" summary="add MyLinkedList">
+      <option name="closed" value="true" />
+      <created>1759857900192</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1759857900192</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Add @Getter and @Setter">
+      <option name="closed" value="true" />
+      <created>1760012350244</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1760012350244</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Creating a project &quot;Sales and Customer Analysis&quot;">
+      <option name="closed" value="true" />
+      <created>1760353084632</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1760353084632</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Editing the structure of the class">
+      <option name="closed" value="true" />
+      <created>1760353605205</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1760353605205</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Full implementation of task 3, namely there are two factions: World and Wednesday and neutral object - Factory. Each faction is trying to create an army of robots, but to do so they need parts for the robots.Robot parts are divided into: head, torso, hand, feet. To build one robot you need 1 head, 1 torso, 2 hands, 2 feet. They are produced by a neutral Factory, which produces no more than 10 parts every day. The type of parts is chosen randomly. At night, the factions go to the Factory to get parts for the robots (each faction can carry no more than 5 parts). The factions and the factory each work in their own thread. Determine who will have the strongest army after 100 days.">
+      <option name="closed" value="true" />
+      <created>1760375730724</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1760375730724</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Full implementation of task 3, namely there are two factions: World and Wednesday and neutral object - Factory. Each faction is trying to create an army of robots, but to do so they need parts for the robots.Robot parts are divided into: head, torso, hand, feet. To build one robot you need 1 head, 1 torso, 2 hands, 2 feet. They are produced by a neutral Factory, which produces no more than 10 parts every day. The type of parts is chosen randomly. At night, the factions go to the Factory to get parts for the robots (each faction can carry no more than 5 parts). The factions and the factory each work in their own thread. Determine who will have the strongest army after 100 days.">
+      <option name="closed" value="true" />
+      <created>1760379000295</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1760379000295</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="First init" />
+    <MESSAGE value="dev branch init" />
+    <MESSAGE value="add MyLinkedList" />
+    <MESSAGE value="Add @Getter and @Setter" />
+    <MESSAGE value="Creating a project &quot;Sales and Customer Analysis&quot;" />
+    <MESSAGE value="Editing the structure of the class" />
+    <MESSAGE value="Full implementation of task 3, namely there are two factions: World and Wednesday and neutral object - Factory. Each faction is trying to create an army of robots, but to do so they need parts for the robots.Robot parts are divided into: head, torso, hand, feet. To build one robot you need 1 head, 1 torso, 2 hands, 2 feet. They are produced by a neutral Factory, which produces no more than 10 parts every day. The type of parts is chosen randomly. At night, the factions go to the Factory to get parts for the robots (each faction can carry no more than 5 parts). The factions and the factory each work in their own thread. Determine who will have the strongest army after 100 days." />
+    <option name="LAST_COMMIT_MESSAGE" value="Full implementation of task 3, namely there are two factions: World and Wednesday and neutral object - Factory. Each faction is trying to create an army of robots, but to do so they need parts for the robots.Robot parts are divided into: head, torso, hand, feet. To build one robot you need 1 head, 1 torso, 2 hands, 2 feet. They are produced by a neutral Factory, which produces no more than 10 parts every day. The type of parts is chosen randomly. At night, the factions go to the Factory to get parts for the robots (each faction can carry no more than 5 parts). The factions and the factory each work in their own thread. Determine who will have the strongest army after 100 days." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
+          <line>13</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/task_2/src/main/java/org/example/Main.java</url>
+          <line>13</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/task_3/task_3/src/main/java/org/example/Main.java</url>
+          <line>13</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/task_3/src/main/java/org/example/Main.java</url>
+          <line>13</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
