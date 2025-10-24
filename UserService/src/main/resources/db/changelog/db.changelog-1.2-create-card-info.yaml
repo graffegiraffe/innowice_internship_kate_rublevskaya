@@ -1,0 +1,45 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3
+      author: katusha
+      changes:
+        - createTable:
+            tableName: card_info
+            schemaName: userservice
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_card_user
+                    references: userservice.users(id)
+              - column:
+                  name: number
+                  type: VARCHAR(16)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: holder
+                  type: VARCHAR(100)
+              - column:
+                  name: expiration_date
+                  type: DATE
+        - createIndex:
+            indexName: idx_card_info_user_id
+            tableName: card_info
+            columns:
+              - column:
+                  name: user_id
+        - createIndex:
+            indexName: idx_card_info_number
+            tableName: card_info
+            columns:
+              - column:
+                  name: number
