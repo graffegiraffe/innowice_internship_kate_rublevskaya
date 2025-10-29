@@ -1,0 +1,106 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4
+      author: katusha
+      changes:
+        - insert:
+            tableName: users
+            schemaName: userservice
+            columns:
+              - column: {name: name, value: "Kate"}
+              - column: {name: surname, value: "Rublevskya"}
+              - column: {name: birth_date, value: "2005-11-25"}
+              - column: {name: email, value: "kate.rubl@icloud.com"}
+        - insert:
+            tableName: users
+            schemaName: userservice
+            columns:
+              - column: {name: name, value: "Dzmitry"}
+              - column: {name: surname, value: "Alikhver"}
+              - column: {name: birth_date, value: "2000-11-22"}
+              - column: {name: email, value: "Dzmitry@icloud.com"}
+        - insert:
+            tableName: users
+            schemaName: userservice
+            columns:
+              - column: {name: name, value: "alex"}
+              - column: {name: surname, value: "kozel"}
+              - column: {name: birth_date, value: "2002-12-10"}
+              - column: {name: email, value: "kozel@icloud.com"}
+        - insert:
+            tableName: users
+            schemaName: userservice
+            columns:
+              - column: {name: name, value: "Елена"}
+              - column: {name: surname, value: "Иванова"}
+              - column: {name: birth_date, value: "1988-03-30"}
+              - column: {name: email, value: "elena.ivanova@icloud.com"}
+        - insert:
+            tableName: users
+            schemaName: userservice
+            columns:
+              - column: {name: name, value: "Дмитрий"}
+              - column: {name: surname, value: "Олихвер"}
+              - column: {name: birth_date, value: "1995-07-18"}
+              - column: {name: email, value: "dmitry@icloud.com"}
+
+  - changeSet:
+      id: 5
+      author: katusha
+      changes:
+        - insert:
+            tableName: card_info
+            schemaName: userservice
+            columns:
+              - column: {name: user_id, value: 1}
+              - column: {name: number, value: "1234567812345678"}
+              - column: {name: holder, value: "KATE RUBLEVSKAYA"}
+              - column: {name: expiration_date, value: "2025-12-31"}
+        - insert:
+            tableName: card_info
+            schemaName: userservice
+            columns:
+              - column: {name: user_id, value: 1}
+              - column: {name: number, value: "8765432187654321"}
+              - column: {name: holder, value: "KATE RUBLEVSKAYA"}
+              - column: {name: expiration_date, value: "2026-06-30"}
+        - insert:
+            tableName: card_info
+            schemaName: userservice
+            columns:
+              - column: {name: user_id, value: 2}
+              - column: {name: number, value: "1111222233334444"}
+              - column: {name: holder, value: "DZMITRY ALIKHVER"}
+              - column: {name: expiration_date, value: "2024-09-15"}
+        - insert:
+            tableName: card_info
+            schemaName: userservice
+            columns:
+              - column: {name: user_id, value: 3}
+              - column: {name: number, value: "5555666677778888"}
+              - column: {name: holder, value: "ALEXEY KOZLOV"}
+              - column: {name: expiration_date, value: "2027-03-20"}
+        - insert:
+            tableName: card_info
+            schemaName: userservice
+            columns:
+              - column: {name: user_id, value: 4}
+              - column: {name: number, value: "9999888877776666"}
+              - column: {name: holder, value: "ELENA IVANOVA"}
+              - column: {name: expiration_date, value: "2025-08-10"}
+        - insert:
+            tableName: card_info
+            schemaName: userservice
+            columns:
+              - column: {name: user_id, value: 4}
+              - column: {name: number, value: "4444333322221111"}
+              - column: {name: holder, value: "ELENA IVANOVA"}
+              - column: {name: expiration_date, value: "2026-11-25"}
+        - insert:
+            tableName: card_info
+            schemaName: userservice
+            columns:
+              - column: {name: user_id, value: 5}
+              - column: {name: number, value: "6666555544443333"}
+              - column: {name: holder, value: "DMITRY OLIKHVER"}
+              - column: {name: expiration_date, value: "2028-01-05"}
