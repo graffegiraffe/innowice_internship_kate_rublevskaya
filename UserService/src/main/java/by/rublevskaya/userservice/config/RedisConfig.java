@@ -22,7 +22,7 @@ import java.util.Map;
 @EnableCaching
 public class RedisConfig {
 
-    @Value("${spring.data.redis.:localhost}")
+    @Value("${spring.data.redis.host:localhost}")
     private String redisHost;
 
     @Value("${spring.data.redis.port:6379}")
