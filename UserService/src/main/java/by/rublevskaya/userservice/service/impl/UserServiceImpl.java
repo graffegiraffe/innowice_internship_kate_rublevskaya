@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -84,7 +83,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Caching(evict = {
             @CacheEvict(value = USERS_PAGE_CACHE, allEntries = true),
-            @CacheEvict(value = USER_EMAIL_CACHE, key = "#userRequest.email")
+            @CacheEvict(value = USER_EMAIL_CACHE, allEntries = true)
     }, put = {
             @CachePut(value = USER_CACHE, key = "#id")
     })

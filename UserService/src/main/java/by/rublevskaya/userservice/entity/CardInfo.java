@@ -1,6 +1,7 @@
 package by.rublevskaya.userservice.entity;
 
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -16,6 +17,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
@@ -23,7 +25,8 @@ import java.time.LocalDate;
 @Data
 @EqualsAndHashCode(of = "id")
 @ToString(exclude = "user")
-public class CardInfo {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class CardInfo implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +34,7 @@ public class CardInfo {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference
     private User user;
 
     @NotBlank(message = "Card number is mandatory")
