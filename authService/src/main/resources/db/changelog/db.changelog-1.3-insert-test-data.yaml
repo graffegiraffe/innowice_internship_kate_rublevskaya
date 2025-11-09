@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4
+      author: katusha
+      changes:
+        - insert:
+            tableName: user_credentials
+            schemaName: authservice
+            columns:
+              - column: {name: login, value: "admin"}
+              - column: {name: password, value: "$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5GyYU.Hu9TK6W"}
+              - column: {name: user_id, value: 1}
+              - column: {name: role, value: "ADMIN"}
+              - column: {name: created_at, valuDate: now()}
+              - column: {name: updated_at, valueDate: now()}
+        - insert:
+            tableName: user_credentials
+            schemaName: authservice
+            columns:
+              - column: {name: login, value: "kate.rubl"}
+              - column: {name: password, value: "$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5GyYU.Hu9TK6W"}
+              - column: {name: user_id, value: 1}
+              - column: {name: role, value: "USER"}
+              - column: {name: created_at, valueDate: now()}
+              - column: {name: updated_at, valueDate: now()}
+        - insert:
+            tableName: user_credentials
+            schemaName: authservice
+            columns:
+              - column: {name: login, value: "dzmitry"}
+              - column: {name: password, value: "$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5GyYU.Hu9TK6W"}
+              - column: {name: user_id, value: 2}
+              - column: {name: role, value: "USER"}
+              - column: {name: created_at, valueDate: now()}
+              - column: {name: updated_at, valueDate: now()}
