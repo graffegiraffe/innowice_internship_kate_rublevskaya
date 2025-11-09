@@ -1,0 +1,77 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: userservice-postgres
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
+      POSTGRES_USER: ${POSTGRES_USER:-katusha}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-katusha}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8"
+    ports:
+      - "${POSTGRES_HOST_PORT:-5433}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./init-schema.sql:/docker-entrypoint-initdb.d/01-init-schema.sql:ro
+    networks:
+      - userservice-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-katusha} -d ${POSTGRES_DB:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  redis:
+    image: redis:7-alpine
+    container_name: userservice-redis
+    ports:
+      - "${REDIS_HOST_PORT:-6380}:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - userservice-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  userservice:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: userservice-app
+    ports:
+      - "${APPLICATION_HOST_PORT:-8080}:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-postgres}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-katusha}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-katusha}
+
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+
+      SPRING_LIQUIBASE_ENABLED: "true"
+
+      LOGGING_LEVEL_BY_RUBLEVSKAYA_USERSERVICE: INFO
+
+      SPRINGDOC_OPENAPI_DEV_URL: http://localhost:8080
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - userservice-network
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
+    driver: local
+  redis-data:
+    driver: local
+
+networks:
+  userservice-network:
+    driver: bridge
