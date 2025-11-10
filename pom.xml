@@ -19,8 +19,9 @@
         <module>task_1</module>
         <module>task_2</module>
         <module>task_3</module>
-        <!--        <module>task_4</module>-->
+        <module>task_4</module>
         <module>UserService</module>
+        <module>authService</module>
     </modules>
 
     <properties>
