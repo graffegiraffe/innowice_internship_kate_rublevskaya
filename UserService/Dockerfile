@@ -1,10 +1,10 @@
 FROM maven:3.9.4-eclipse-temurin-21 AS build
-WORKDIR /app
+WORKDIR /build
 
-COPY pom.xml .
-RUN mvn dependency:go-offline -B
+COPY pom.xml ./
+COPY UserService ./UserService
 
-COPY src ./src
+WORKDIR /build/UserService
 RUN mvn clean package -DskipTests
 
 FROM eclipse-temurin:21-jre-alpine
@@ -13,7 +13,7 @@ WORKDIR /app
 RUN addgroup -S spring && adduser -S spring -G spring
 USER spring:spring
 
-COPY --from=build /app/target/*.jar app.jar
+COPY --from=build /build/UserService/target/*.jar app.jar
 
 EXPOSE 8080
 
