@@ -10,6 +10,7 @@ import by.rublevskaya.userservice.exception.UserNotFoundException;
 import by.rublevskaya.userservice.mapper.CardMapper;
 import by.rublevskaya.userservice.repository.CardInfoRepository;
 import by.rublevskaya.userservice.repository.UserRepository;
+import by.rublevskaya.userservice.security.AuthorizationService;
 import by.rublevskaya.userservice.service.CardInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +36,7 @@ public class CardInfoServiceImpl implements CardInfoService {
     private final UserRepository userRepository;
     private final CardMapper cardMapper;
     private final CacheManager cacheManager;
+    private final AuthorizationService authorizationService;
 
     private static final String CARD_CACHE = "cards";
     private static final String CARDS_PAGE_CACHE = "cardsPage";
@@ -48,6 +50,7 @@ public class CardInfoServiceImpl implements CardInfoService {
     })
     public CardResponse createCard(CardRequest cardRequest) {
         log.info("Creating new card for user id: {}", cardRequest.getUserId());
+        authorizationService.checkUserAccess(cardRequest.getUserId());
         User user = userRepository.findById(cardRequest.getUserId())
                 .orElseThrow(() -> new UserNotFoundException(cardRequest.getUserId()));
 
@@ -69,6 +72,7 @@ public class CardInfoServiceImpl implements CardInfoService {
         log.info("Fetching card by id: {}", id);
         CardInfo cardInfo = cardInfoRepository.findById(id)
                 .orElseThrow(() -> new CardNotFoundException(id));
+        authorizationService.checkUserAccess(cardInfo.getUser().getId());
         return cardMapper.toResponse(cardInfo);
     }
 
@@ -77,6 +81,9 @@ public class CardInfoServiceImpl implements CardInfoService {
     @Cacheable(value = CARDS_PAGE_CACHE, key = "#pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort")
     public Page<CardResponse> getAllCards(Pageable pageable) {
         log.info("Fetching all cards with pagination: {}", pageable);
+        if (!authorizationService.isAdmin()) {
+            throw new org.springframework.security.access.AccessDeniedException("Access denied, admin only");
+        }
         return cardInfoRepository.findAll(pageable)
                 .map(cardMapper::toResponse);
     }
@@ -89,6 +96,7 @@ public class CardInfoServiceImpl implements CardInfoService {
         if (!userRepository.existsById(userId)) {
             throw new UserNotFoundException(userId);
         }
+        authorizationService.checkUserAccess(userId);
         return cardInfoRepository.findCardsByUserId(userId).stream()
                 .map(cardMapper::toResponse)
                 .toList();
@@ -106,6 +114,7 @@ public class CardInfoServiceImpl implements CardInfoService {
         log.info("Updating card with id: {}", id);
         CardInfo existingCard = cardInfoRepository.findById(id)
                 .orElseThrow(() -> new CardNotFoundException(id));
+        authorizationService.checkUserAccess(existingCard.getUser().getId());
 
         if (!existingCard.getUser().getId().equals(cardRequest.getUserId())) {
             evictUserCardsCache(existingCard.getUser().getId());
@@ -139,6 +148,7 @@ public class CardInfoServiceImpl implements CardInfoService {
         log.info("Deleting card with id: {}", id);
         CardInfo card = cardInfoRepository.findById(id)
                 .orElseThrow(() -> new CardNotFoundException(id));
+        authorizationService.checkUserAccess(card.getUser().getId());
         evictUserCardsCache(card.getUser().getId());
         cardInfoRepository.deleteById(id);
         log.info("Card deleted successfully with id: {}", id);
