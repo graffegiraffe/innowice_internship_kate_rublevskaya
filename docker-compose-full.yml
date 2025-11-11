@@ -1,0 +1,117 @@
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  auth-postgres-data:
+  user-postgres-data:
+  redis-data:
+
+services:
+  # Auth Service Database
+  auth-postgres:
+    image: postgres:15-alpine
+    container_name: auth-postgres
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: katusha
+      POSTGRES_PASSWORD: katusha
+    ports:
+      - "5434:5432"
+    volumes:
+      - auth-postgres-data:/var/lib/postgresql/data
+      - ./authService/init-schema.sql:/docker-entrypoint-initdb.d/01-init-schema.sql:ro
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U katusha -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # User Service Database
+  user-postgres:
+    image: postgres:15-alpine
+    container_name: user-postgres
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: katusha
+      POSTGRES_PASSWORD: katusha
+    ports:
+      - "5433:5432"
+    volumes:
+      - user-postgres-data:/var/lib/postgresql/data
+      - ./UserService/init-schema.sql:/docker-entrypoint-initdb.d/01-init-schema.sql:ro
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U katusha -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # Redis for User Service
+  redis:
+    image: redis:7-alpine
+    container_name: user-redis
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Auth Service
+  auth-service:
+    build:
+      context: .
+      dockerfile: authService/Dockerfile
+    container_name: authService
+    ports:
+      - "8082:8081"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://auth-postgres:5432/postgres
+      SPRING_DATASOURCE_USERNAME: katusha
+      SPRING_DATASOURCE_PASSWORD: katusha
+      JWT_SECRET: MySecretKeyForJWTTokenGenerationThatIsLongEnoughForHS256Algorithm
+      JWT_ACCESS_TOKEN_EXPIRATION: 900000
+      JWT_REFRESH_TOKEN_EXPIRATION: 86400000
+    depends_on:
+      auth-postgres:
+        condition: service_healthy
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # User Service
+  user-service:
+    build:
+      context: .
+      dockerfile: UserService/Dockerfile
+    container_name: UserService
+    ports:
+      - "8081:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://user-postgres:5432/postgres
+      SPRING_DATASOURCE_USERNAME: katusha
+      SPRING_DATASOURCE_PASSWORD: katusha
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      JWT_SECRET: MySecretKeyForJWTTokenGenerationThatIsLongEnoughForHS256Algorithm
+    depends_on:
+      user-postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      auth-service:
+        condition: service_started
+    networks:
+      - app-network
+    restart: unless-stopped
