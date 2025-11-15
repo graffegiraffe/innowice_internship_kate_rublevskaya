@@ -7,9 +7,6 @@ databaseChangeLog:
             tableName: items
             columns:
               - column:
-                  name: id
-                  value: 1
-              - column:
                   name: name
                   value: "MacBook"
               - column:
@@ -19,9 +16,6 @@ databaseChangeLog:
             tableName: items
             columns:
               - column:
-                  name: id
-                  value: 2
-              - column:
                   name: name
                   value: "Apple Watch Series 7"
               - column:
@@ -30,9 +24,6 @@ databaseChangeLog:
         - insert:
             tableName: items
             columns:
-              - column:
-                  name: id
-                  value: 3
               - column:
                   name: name
                   value: "USB-C Cable"
@@ -48,11 +39,8 @@ databaseChangeLog:
             tableName: orders
             columns:
               - column:
-                  name: id
-                  value: 1
-              - column:
                   name: user_id
-                  value: 101
+                  value: 1
               - column:
                   name: status
                   value: "PENDING"
@@ -63,82 +51,11 @@ databaseChangeLog:
             tableName: orders
             columns:
               - column:
-                  name: id
-                  value: 2
-              - column:
                   name: user_id
-                  value: 102
+                  value: 2
               - column:
                   name: status
                   value: "SHIPPED"
               - column:
                   name: creation_date
                   value: "2025-11-11T14:00:00"
-        - insert:
-            tableName: orders
-            columns:
-              - column:
-                  name: id
-                  value: 3
-              - column:
-                  name: user_id
-                  value: 101
-              - column:
-                  name: status
-                  value: "COMPLETED"
-              - column:
-                  name: creation_date
-                  value: "2025-11-05T09:15:00"
-
-  - changeSet:
-      id: 003-insert-test-order-items
-      author: dev_project
-      changes:
-        - insert:
-            tableName: order_items
-            columns:
-              - column:
-                  name: order_id
-                  value: 1
-              - column:
-                  name: item_id
-                  value: 1
-              - column:
-                  name: quantity
-                  value: 1
-        - insert:
-            tableName: order_items
-            columns:
-              - column:
-                  name: order_id
-                  value: 1
-              - column:
-                  name: item_id
-                  value: 3
-              - column:
-                  name: quantity
-                  value: 1
-        - insert:
-            tableName: order_items
-            columns:
-              - column:
-                  name: order_id
-                  value: 2
-              - column:
-                  name: item_id
-                  value: 2
-              - column:
-                  name: quantity
-                  value: 2
-        - insert:
-            tableName: order_items
-            columns:
-              - column:
-                  name: order_id
-                  value: 3
-              - column:
-                  name: item_id
-                  value: 3
-              - column:
-                  name: quantity
-                  value: 1
