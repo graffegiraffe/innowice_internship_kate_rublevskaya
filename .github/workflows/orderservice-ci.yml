@@ -140,18 +140,25 @@ jobs:
       - name: Build Parent POM
         run: mvn clean install -N -DskipTests
 
-      - name: Build and Analyze OrderService with SonarCloud
+      - name: Build OrderService for Sonar Analysis
+        run: |
+          mvn -f orderservice/pom.xml clean compile -DskipTests
+          mvn -f orderservice/pom.xml test -DskipTests=false
+
+      - name: Run SonarCloud Analysis
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          mvn -f orderservice/pom.xml clean verify sonar:sonar \
+          mvn -f orderservice/pom.xml sonar:sonar \
             -Dsonar.projectKey=graffegiraffe_innowice_internship_orderservice \
             -Dsonar.projectName="OrderService" \
             -Dsonar.organization=graffegiraffe \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
-            -DskipTests
+            -Dsonar.sources=src/main/java \
+            -Dsonar.tests=src/test/java \
+            -Dsonar.sourceEncoding=UTF-8
 
   build-docker-image:
     name: Build and Push Docker Image
