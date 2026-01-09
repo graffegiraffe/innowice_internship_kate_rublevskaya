@@ -19,9 +19,9 @@ public interface OrderMapper {
 
     List<OrderResponseDto> toResponseDtoList(List<Order> orders);
 
-    @Mapping(source = "item.id", target = "itemId")
-    @Mapping(source = "item.name", target = "itemName")
-    @Mapping(source = "item.price", target = "itemPrice")
+    @Mapping(target = "itemId", expression = "java(orderItem.getItem() != null ? orderItem.getItem().getId() : null)")
+    @Mapping(target = "itemName", expression = "java(orderItem.getItem() != null ? orderItem.getItem().getName() : null)")
+    @Mapping(target = "itemPrice", expression = "java(orderItem.getItem() != null ? orderItem.getItem().getPrice() : null)")
     OrderItemResponseDto toResponseDto(OrderItem orderItem);
 
 
