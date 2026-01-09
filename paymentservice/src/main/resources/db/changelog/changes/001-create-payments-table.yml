@@ -1,0 +1,72 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1704825000-1
+      author: developer
+      changes:
+        - createTable:
+            tableName: payments
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: order_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: timestamp
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: payment_amount
+                  type: DECIMAL(19, 2)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 1704825000-2
+      author: developer
+      changes:
+        - createIndex:
+            indexName: idx_payments_order_id
+            tableName: payments
+            columns:
+              - column:
+                  name: order_id
+
+  - changeSet:
+      id: 1704825000-3
+      author: developer
+      changes:
+        - createIndex:
+            indexName: idx_payments_user_id
+            tableName: payments
+            columns:
+              - column:
+                  name: user_id
+
+  - changeSet:
+      id: 1704825000-4"
+      author: developer
+      changes:
+        - createIndex:
+            indexName: idx_payments_status
+            tableName: payments
+            columns:
+              - column:
+                  name: status
