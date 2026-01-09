@@ -61,7 +61,7 @@ databaseChangeLog:
                   name: user_id
 
   - changeSet:
-      id: 1704825000-4"
+      id: 1704825000-4
       author: developer
       changes:
         - createIndex:
