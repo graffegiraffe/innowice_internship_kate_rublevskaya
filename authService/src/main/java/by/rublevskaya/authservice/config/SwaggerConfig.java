@@ -1,4 +1,4 @@
-package by.rublevskaya.userservice.config;
+package by.rublevskaya.authservice.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -10,13 +10,11 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
-@Configuration
 public class SwaggerConfig {
-    @Value("${springdoc.openapi.dev-url:http://localhost:8080}")
+    @Value("${springdoc.openapi.dev-url:http://localhost:8081}")
     private String devUrl;
 
     @Bean
@@ -28,17 +26,17 @@ public class SwaggerConfig {
         Contact contact = new Contact();
         contact.setEmail("katusha@example.com");
         contact.setName("Katusha");
-        contact.setUrl("https://www.example.com");
 
-        License mitLicense = new License().name("MIT License").url("https://choosealicense.com/licenses/mit/");
+        License license = new License()
+                .name("MIT License")
+                .url("https://choosealicense.com/licenses/mit/");
 
         Info info = new Info()
-                .title("User Service API")
+                .title("Auth Service API")
                 .version("1.0")
                 .contact(contact)
-                .description("This API exposes endpoints to manage users and their cards.")
-                .termsOfService("https://www.example.com/terms")
-                .license(mitLicense);
+                .description("Authentication and Authorization Service with JWT")
+                .license(license);
 
         SecurityScheme securityScheme = new SecurityScheme()
                 .type(SecurityScheme.Type.HTTP)

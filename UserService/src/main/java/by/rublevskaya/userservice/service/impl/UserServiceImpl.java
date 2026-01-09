@@ -7,6 +7,7 @@ import by.rublevskaya.userservice.exception.EmailAlreadyExistsException;
 import by.rublevskaya.userservice.exception.UserNotFoundException;
 import by.rublevskaya.userservice.mapper.UserMapper;
 import by.rublevskaya.userservice.repository.UserRepository;
+import by.rublevskaya.userservice.security.AuthorizationService;
 import by.rublevskaya.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final CacheManager cacheManager;
+    private final AuthorizationService authorizationService;
 
     private static final String USER_CACHE = "users";
     private static final String USER_EMAIL_CACHE = "usersByEmail";
@@ -55,6 +57,8 @@ public class UserServiceImpl implements UserService {
     @Cacheable(value = USER_CACHE, key = "#id")
     public UserResponse getUserById(Long id) {
         log.info("Fetching user by id: {}", id);
+        authorizationService.checkUserAccess(id);
+
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
         return userMapper.toResponse(user);
@@ -76,6 +80,8 @@ public class UserServiceImpl implements UserService {
         log.info("Fetching user by email: {}", email);
         User user = userRepository.findUserByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
+        authorizationService.checkUserAccess(user.getId());
+
         return userMapper.toResponse(user);
     }
 
@@ -89,6 +95,8 @@ public class UserServiceImpl implements UserService {
     })
     public UserResponse updateUser(Long id, UserRequest userRequest) {
         log.info("Updating user with id: {}", id);
+        authorizationService.checkUserAccess(id);
+
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
 
@@ -115,6 +123,8 @@ public class UserServiceImpl implements UserService {
     })
     public void deleteUser(Long id) {
         log.info("Deleting user with id: {}", id);
+        authorizationService.checkUserAccess(id);
+
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
         evictUserByEmailCache(user.getEmail());
