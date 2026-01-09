@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 public class OrderResponseDto {
     private Long id;
-    private Long userId;
+    private UserDto user;
     private OrderStatus status;
     private LocalDateTime creationDate;
     private List<OrderItemResponseDto> items;
