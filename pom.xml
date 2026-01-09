@@ -22,6 +22,7 @@
         <module>task_4</module>
         <module>UserService</module>
         <module>authService</module>
+        <module>orderservice</module>
     </modules>
 
     <properties>
