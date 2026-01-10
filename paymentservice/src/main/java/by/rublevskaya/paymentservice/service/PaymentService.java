@@ -16,7 +16,6 @@ import org.springframework.web.client.RestTemplate;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -58,12 +57,12 @@ public class PaymentService {
         }
     }
 
-    public List<PaymentResponse> getPaymentsByOrderId(UUID orderId) {
+    public List<PaymentResponse> getPaymentsByOrderId(Long orderId) {
         List<Payment> payments = paymentRepository.findAllByOrderId(orderId);
         return paymentMapper.toResponseList(payments);
     }
 
-    public List<PaymentResponse> getPaymentsByUserId(UUID userId) {
+    public List<PaymentResponse> getPaymentsByUserId(Long userId) {
         List<Payment> payments = paymentRepository.findAllByUserId(userId);
         return paymentMapper.toResponseList(payments);
     }
