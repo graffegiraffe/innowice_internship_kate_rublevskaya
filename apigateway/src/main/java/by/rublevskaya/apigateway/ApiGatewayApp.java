@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
         HibernateJpaAutoConfiguration.class,
         LiquibaseAutoConfiguration.class
 })
+//http://localhost:8083/swagger-ui.html
 public class ApiGatewayApp {
     public static void main(String[] args) {
         SpringApplication.run(ApiGatewayApp.class, args);
