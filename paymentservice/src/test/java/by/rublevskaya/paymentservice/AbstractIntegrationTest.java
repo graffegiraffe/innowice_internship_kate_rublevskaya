@@ -31,7 +31,7 @@ public abstract class AbstractIntegrationTest {
              var statement = connection.createStatement()) {
             statement.execute("CREATE SCHEMA IF NOT EXISTS paymentservice");
         } catch (SQLException e) {
-            throw new RuntimeException("Не удалось создать схему базы данных", e);
+            throw new RuntimeException("Failed to create database schema", e);
         }
     }
 
