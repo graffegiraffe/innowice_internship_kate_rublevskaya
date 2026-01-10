@@ -10,14 +10,13 @@ import org.springframework.stereotype.Repository;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Repository
-public interface PaymentRepository extends JpaRepository<Payment, UUID> {
+public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
-    List<Payment> findAllByOrderId(UUID orderId);
+    List<Payment> findAllByOrderId(Long orderId);
 
-    List<Payment> findAllByUserId(UUID userId);
+    List<Payment> findAllByUserId(Long userId);
 
     List<Payment> findAllByStatusIn(List<PaymentStatus> statuses);
 

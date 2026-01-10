@@ -37,7 +37,7 @@ public class SecurityConfig {
                                 "/v3/api-docs",
                                 "/webjars"
                         ).permitAll()
-
+                        .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/api/v1/orders/**").authenticated()
                         .anyRequest().authenticated()
                 )
