@@ -5,6 +5,8 @@ networks:
 volumes:
   auth-postgres-data:
   user-postgres-data:
+  payment-postgres-data:
+  order-postgres-data:
   redis-data:
 
 services:
@@ -20,7 +22,7 @@ services:
       - "5434:5432"
     volumes:
       - auth-postgres-data:/var/lib/postgresql/data
-      - ./authService/init-schema.sql:/docker-entrypoint-initdb.d/01-init-schema.sql:ro
+      - ./init_auth.sql:/docker-entrypoint-initdb.d/init_auth.sql
     networks:
       - app-network
     healthcheck:
@@ -41,7 +43,7 @@ services:
       - "5433:5432"
     volumes:
       - user-postgres-data:/var/lib/postgresql/data
-      - ./UserService/init-schema.sql:/docker-entrypoint-initdb.d/01-init-schema.sql:ro
+      - ./init_user.sql:/docker-entrypoint-initdb.d/init_user.sql
     networks:
       - app-network
     healthcheck:
@@ -50,7 +52,6 @@ services:
       timeout: 5s
       retries: 10
 
-  # Redis for User Service
   redis:
     image: redis:7-alpine
     container_name: user-redis
@@ -66,14 +67,87 @@ services:
       timeout: 5s
       retries: 5
 
-  # Auth Service
+  # Payment Service database
+  payment-postgres:
+    image: postgres:15-alpine
+    container_name: payment-postgres
+    environment:
+      POSTGRES_USER: katusha
+      POSTGRES_PASSWORD: katusha
+      POSTGRES_DB: postgres
+    ports:
+      - "5435:5432"
+    volumes:
+      - payment-postgres-data:/var/lib/postgresql/data
+      - ./init_payment.sql:/docker-entrypoint-initdb.d/init_payment.sql
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U katusha -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.4.0
+    container_name: shared-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - app-network
+
+  kafka:
+    image: confluentinc/cp-kafka:7.4.0
+    container_name: shared-kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: shared-zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://shared-kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - app-network
+    healthcheck:
+      test: nc -z localhost 9092 || exit -1
+      start_period: 15s
+      interval: 5s
+      timeout: 10s
+      retries: 10
+
+  # Order Service database
+  order-postgres:
+    image: postgres:15-alpine
+    container_name: order-postgres
+    environment:
+      POSTGRES_USER: katusha
+      POSTGRES_PASSWORD: katusha
+      POSTGRES_DB: postgres
+    ports:
+      - "5436:5432"
+    volumes:
+      - order-postgres-data:/var/lib/postgresql/data
+      - ./init_order.sql:/docker-entrypoint-initdb.d/init_order.sql
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U katusha -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
   auth-service:
     build:
       context: .
       dockerfile: authService/Dockerfile
     container_name: authService
     ports:
-      - "8082:8081"
+      - "8082:8082"
     environment:
       SPRING_PROFILES_ACTIVE: docker
       SPRING_DATASOURCE_URL: jdbc:postgresql://auth-postgres:5432/postgres
@@ -89,14 +163,13 @@ services:
       - app-network
     restart: unless-stopped
 
-  # User Service
   user-service:
     build:
       context: .
       dockerfile: UserService/Dockerfile
     container_name: UserService
     ports:
-      - "8081:8080"
+      - "8081:8081"
     environment:
       SPRING_PROFILES_ACTIVE: docker
       SPRING_DATASOURCE_URL: jdbc:postgresql://user-postgres:5432/postgres
@@ -115,3 +188,79 @@ services:
     networks:
       - app-network
     restart: unless-stopped
+
+  payment-service:
+    build:
+      context: .
+      dockerfile: paymentservice/Dockerfile
+    container_name: payment-service
+    depends_on:
+      payment-postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    ports:
+      - "8085:8085"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://payment-postgres:5432/postgres?currentSchema=paymentservice
+      SPRING_DATASOURCE_USERNAME: katusha
+      SPRING_DATASOURCE_PASSWORD: katusha
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: shared-kafka:29092
+      SPRING_LIQUIBASE_DEFAULT_SCHEMA: paymentservice
+    networks:
+      - app-network
+    restart: on-failure
+
+  order-service:
+    build:
+      context: .
+      dockerfile: orderservice/Dockerfile
+    container_name: order-service
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://order-postgres:5432/postgres?currentSchema=orderservice
+      SPRING_DATASOURCE_USERNAME: katusha
+      SPRING_DATASOURCE_PASSWORD: katusha
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: shared-kafka:29092
+      SPRING_LIQUIBASE_DEFAULT_SCHEMA: orderservice
+      USER_SERVICE_BASE_URL: http://UserService:8081
+    depends_on:
+      order-postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      user-service:
+        condition: service_started
+    networks:
+      - app-network
+    restart: on-failure
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: apigateway/Dockerfile
+    container_name: api-gateway
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SERVER_PORT: 8083
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+    depends_on:
+      auth-service:
+        condition: service_started
+      user-service:
+        condition: service_started
+      payment-service:
+        condition: service_started
+      order-service:
+        condition: service_started
+      redis:
+        condition: service_healthy
+    networks:
+      - app-network
+    restart: on-failure
