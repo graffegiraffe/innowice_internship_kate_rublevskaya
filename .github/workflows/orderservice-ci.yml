@@ -2,13 +2,13 @@ name: OrderService CI/CD Pipeline
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main, dev ]
     paths:
       - 'orderservice/**'
       - 'pom.xml'
       - '.github/workflows/orderservice-ci.yml'
   pull_request:
-    branches: [ main, develop ]
+    branches: [ main, dev ]
     paths:
       - 'orderservice/**'
       - 'pom.xml'
